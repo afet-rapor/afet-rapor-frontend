@@ -90,7 +90,7 @@ const Logo = () => {
         </Link>
     );
 };
-export const LogoIcon = () => {
+const LogoIcon = () => {
     return (
         <Link
             href="#"
