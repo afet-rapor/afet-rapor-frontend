@@ -1,33 +1,34 @@
 'use client';
 
+import Loading from '@/app/afetler/yanginlar/loading';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Flame, Settings, User } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 
 import { Sidebar, SidebarBody, SidebarLink } from '@/components/ui/sidebar';
+import { Map } from '@/components/utils/map';
 
 import { cn } from '@/lib/utils';
 
 export default function Yanginlar() {
     const links = [
         {
-            label: 'Profile',
+            label: 'Yangın...',
             href: '#',
             icon: (
                 <User className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
             ),
         },
         {
-            label: 'Settings',
+            label: 'Yangın ..',
             href: '#',
             icon: (
                 <Settings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
             ),
         },
         {
-            label: 'Logout',
+            label: 'Yangın...',
             href: '#',
             icon: (
                 <ArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
@@ -44,7 +45,7 @@ export default function Yanginlar() {
                 )}
             >
                 <Sidebar open={open} setOpen={setOpen}>
-                    <SidebarBody className="justify-between gap-10">
+                    <SidebarBody className="justify-between gap-10 z-50">
                         <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
                             {open ? <Logo /> : <LogoIcon />}
                             <div className="mt-8 flex flex-col gap-2">
@@ -100,27 +101,24 @@ export const LogoIcon = () => {
     );
 };
 
-// Dummy dashboard component with content
 const Dashboard = () => {
     return (
         <div className="flex flex-1">
             <div className="p-2 md:p-10 rounded-tl-2xl border border-border bg-background flex flex-col gap-2 flex-1 w-full h-full">
                 <h1 className="text-xl md:text-2xl">Orman Yangınları</h1>
-                <div className="flex gap-2">
-                    {[...new Array(4)].map((i) => (
-                        <div
-                            key={'first-array' + i}
-                            className="h-20 w-full rounded-lg  bg-gray-100 dark:bg-neutral-800 animate-pulse"
-                        ></div>
-                    ))}
-                </div>
-                <div className="flex gap-2 flex-1">
-                    {[...new Array(2)].map((i) => (
-                        <div
-                            key={'second-array' + i}
-                            className="h-full w-full rounded-lg  bg-gray-100 dark:bg-neutral-800 animate-pulse"
-                        ></div>
-                    ))}
+                <div className="flex gap-2 w-full h-full z-0">
+                    <Suspense fallback={<Loading />}>
+                        <motion.div
+                            style={{ width: '100%', height: '100%' }}
+                            animate={{
+                                opacity: 1,
+                                scale: 1,
+                                transition: { duration: 1 }, // Animate for 1 second
+                            }}
+                        >
+                            <Map />
+                        </motion.div>
+                    </Suspense>
                 </div>
             </div>
         </div>
